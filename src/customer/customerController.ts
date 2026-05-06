@@ -1,5 +1,4 @@
 import { Response } from "express";
-
 import customerModel from "./customerModel";
 import { AuthRequest } from "../types";
 
@@ -18,5 +17,24 @@ export class CustomerController {
       return res.json(newCustomer);
     }
     res.json(customer);
+  };
+  addAddress = async (req: AuthRequest, res: Response) => {
+    const { sub: userId } = req.auth;
+    const customer = await customerModel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId,
+      },
+      {
+        $push: {
+          addresses: {
+            text: req.body.address,
+            isDefault: false,
+          },
+        },
+      },
+      { new: true },
+    );
+    return res.json(customer);
   };
 }

@@ -7,6 +7,7 @@ import customerRouter from "./customer/customerRouter";
 const app = express();
 
 app.use(cookieParser());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Welcome");
