@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import logger from "./logger";
-import { Config } from "../config/index";
+import config from "config";
 
 const connectDB = async () => {
   try {
@@ -12,7 +12,7 @@ const connectDB = async () => {
       logger.error("Error in connecting to database.", err);
     });
 
-    await mongoose.connect(Config.MONGODB_URI!);
+    await mongoose.connect(config.get("database.url")!);
   } catch (err) {
     logger.error("Error in connecting to database.", err);
     process.exit(1);
